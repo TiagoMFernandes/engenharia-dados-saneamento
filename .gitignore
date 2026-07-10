@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Ambiente virtual
+.venv/
+venv/
+env/
+
+# Dados (não versionar arquivos de dados)
+data/raw/
+data/bronze/
+data/silver/
+data/gold/
+*.parquet
+*.xlsx
+*.xls
+*.csv
+
+# Cobertura de testes
+htmlcov/
+.coverage
+coverage.xml
+.pytest_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Variáveis de ambiente
+.env
+.env.*
+
+# Logs
+*.log
