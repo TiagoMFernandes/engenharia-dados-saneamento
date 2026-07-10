@@ -1,0 +1,48 @@
+version: "3.9"
+
+# ============================================================
+# Serviços disponíveis:
+#
+#   dashboard  — inicia o Streamlit na porta 8501
+#   pipeline   — executa o pipeline completo (IBGE + SINISA + Gold)
+#
+# Como usar:
+#   docker-compose up dashboard        # sobe o dashboard
+#   docker-compose run pipeline        # roda o pipeline completo
+# ============================================================
+
+services:
+  dashboard:
+    build: .
+    container_name: saneamento_dashboard
+    ports:
+      - "8501:8501"
+    volumes:
+      # Monta a pasta de dados para persistir entre execuções
+      - ./data:/app/data
+    environment:
+      - PYTHONPATH=/app
+    restart: unless-stopped
+
+  pipeline:
+    build: .
+    container_name: saneamento_pipeline
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PYTHONPATH=/app
+    # Executa o pipeline completo em sequência
+    command: >
+      sh -c "
+        echo '=== Ingestão IBGE ===' &&
+        python -m src.ingestion.ibge_localidades &&
+        echo '=== Ingestão SINISA ===' &&
+        python -m src.ingestion.sinisa &&
+        echo '=== Transformação Bronze → Silver ===' &&
+        python -m src.transformations.bronze_to_silver &&
+        echo '=== Construção da camada Gold ===' &&
+        python -m src.transformations.build_gold &&
+        echo '=== Pipeline concluído! ==='
+      "
+    profiles:
+      - pipeline
