@@ -1,0 +1,20 @@
+# ============================================================
+# Dependências do projeto — versões fixadas para reprodutibilidade
+# Para desenvolvimento: pip install -r requirements-dev.txt
+# ============================================================
+
+# Core de dados
+pandas==2.2.2
+pyarrow==15.0.2
+python-dotenv==1.0.1
+
+# Ingestão e HTTP
+requests==2.32.3
+openpyxl==3.1.2
+
+# Dashboard
+streamlit==1.35.0
+plotly==5.22.0
+
+# Consultas SQL (opcional, para src/query/duck.py)
+duckdb==0.10.3
